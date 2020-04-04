@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Corona</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<style>
+	body{
+	background-color: #000000;
+    color : #FFFFFF;
+    }
+	.tab {
+	background-color:#323232;
+	}
+	.title {
+	color :#FF8C00;
+	font-size :20px;
+	font-weight: bold;
+	}
+	.date {
+	 background-color:#323232;
+	 width:200px;
+     height:40px;
+	 }
+	.recovered {
+	  
+	  background-color:#3CB371;
+	 }
+	.cases {
+	  background-color:#0000CD;
+	  }
+	.deaths {
+	   background-color:#DC143C;
+	}
+	p {
+	  text-align: center;
+	}
+    #new {
+	  text-align: left;
+	}
+	tbody {
+	height:600px;
+	overflow:auto;
+    }
+	  
+	  
+	</style>
+	<script>
+	
+	  //line chart
+	   google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+	  var dataarray1 = [];
+	  var temp1 = ["countries","numberOfCases","numberOfDeaths","numberOfRecovred"];
+	  dataarray1.push(temp1);
+	  
+	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+	  for (i = 0; i < data.length ; i++) {
+               dataarray1.push([data[i].countryregion,data[i].confirmed,data[i].deaths,data[i].recovered]);
+            }
+			});
+			console.log(dataarray1);
+	  
+	    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(dataarray1);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('myChart2'));
+
+        chart.draw(data, options);
+      }
+           
+</script>
+	  <script>
+	//geo chart
+	  google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+	  
+	  var dataarray = [];
+	  var temp = ["countries","number"];
+	  dataarray.push(temp);
+	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+	  for (i = 0; i < data.length ; i++) {
+               dataarray.push([data[i].countryregion,data[i].confirmed]);
+            }
+			});
+			console.log(dataarray);
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable(dataarray);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+	  
+	  
+	  
+	  //pie chart
+	  
+	  
+	  google.charts.load('current', {'packages':['corechart']});
+	  var dataarray = [];
+	  var temp = ["countries","number"];
+	  dataarray.push(temp);
+	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+	  for (i = 0; i < data.length ; i++) {
+               dataarray.push([data[i].countryregion,data[i].confirmed]);
+            }
+			});
+			console.log(dataarray);
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(dataarray);
+
+        var options = {
+          title: 'Confirmed Cases'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      } 
+	  
+	  
+	
+	  
+	    
+</script>
+<script>
+ //pour remplir le tableau
+	
+	window.onload=function(){
+	$.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+    
+    for(var i =0; i < data.length; i++) { 
+        
+        html += "<tr>";
+        html += "<td>"+data[i].countryregion+"</td>";
+        html += "<td>"+data[i].confirmed+"</td>";
+        html += "<td>"+data[i].deaths+"</td>";
+        html += "<td>"+data[i].recovered+"</td>";
+        html += "</tr>";
+
+        $('.mytable').append(html);
+        html = "";
+    }
+	});
+	}
+</script>   
+</head>
+<body>
+<table id="haut">
+<tr>
+<td width="400px"><div class="date" >1/11/2019=><text id="date"> </div></td>
+<td width="500px">
+<select id="countries">
+
+  <option disabled selected value>Countryregion </option>
+
+</select>
+</td>
+<td width="400px"><img src="logo.png" alt="logo corona"/></td>
+</tr>
+</table>
+</br>
+</br>
+</br>
+<table id="numb">
+<tr>
+<td width="800px">
+<p id="new" class="title"> New Confirmed Cases Vs Deaths</p>
+</td>
+<td width="200px">
+<div class=" cases">
+<label> Cases</label>
+<p class="output1"></p>
+</div>
+</td>
+
+<td width="200px">
+
+<div class="deaths">
+<label > Deaths</label>
+<p class="output2"></p>
+</div>
+</td>
+<td width="200px">
+<div class="recovered"
+<label> Recovered</label>
+<p class="output3"></p>
+</div>
+</td>
+</tr>
+</table>
+<table id="all">
+<tr>
+<td>
+ <div style="height:800px;weight:800px;overflow:auto;">
+<table class="tab" border="2"  >
+<thead>
+      <tr>
+	    
+        <th>Countries</th>
+		<th>Confirmed</th>
+		<th>Deaths</th>
+        <th>Recovred</th>
+      </tr>
+    </thead>
+    <tbody class="mytable">
+	
+	 </tbody>
+  </table>
+  </div>
+ </td>
+ <td>
+ <p class="title"> Nunber Of Cases And Deaths In Each Country</p>
+<div id="myChart2"  style="width=500px;height:500px"></div>
+ 
+ </td>
+ <tr>
+ <td>
+ <p class="title"> Nunber Of Cases And Deaths In Each Country</p>
+  <div id="piechart" style="width: 500px; height: 600px;"></div>
+  
+ </td>
+  
+ <td>
+<p class="title"> Cumulative Confirmed Cases</p>
+<div id="regions_div" style="width:900px; height:600px;"></div>
+
+ 
+ </td>
+ </tr>
+ </table>
+ 
+
+ <script>
+   
+   //le select
+    var countries = $('#countries');
+    var html='';
+    $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+    for (i = 0; i < data.length ; i++) {
+        
+        countries.append(
+            $('<option></option>').html(data[i].countryregion)
+        );
+        
+    }
+    });
+     //le total
+	 $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/brief", function (data) {
+    document.querySelector('.output1').textContent=data.confirmed;
+	document.querySelector('.output2').textContent=data.deaths;
+    document.querySelector('.output3').textContent=data.recovered;
+	
+    //console.log(data);
+
+});
+
+    
+	//currents date
+	n =  new Date();
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+
+</script>
+</body>
+</html>
