@@ -1,14 +1,21 @@
 
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-firestore.js"></script>
+  // Your web app's Firebase configuration
   // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyCKrYrmgNef8KYkn2kqDS1Gi6InPf5nSKE",
-    authDomain: "covidnews-41cb1.firebaseapp.com",
-    databaseURL: "https://covidnews-41cb1.firebaseio.com",
-    projectId: "covidnews-41cb1",
-    storageBucket: "covidnews-41cb1.appspot.com",
-    messagingSenderId: "485617911058",
-    appId: "1:485617911058:web:1e2bf9e5307c24a3685fcb",
-    measurementId: "G-TDQME3FNSM"
+    apiKey: "AIzaSyD5a0OWtuQmCceki9bOK-CAdG5hk41gHgo",
+    authDomain: "mydocc19.firebaseapp.com",
+    databaseURL: "https://mydocc19.firebaseio.com",
+    projectId: "mydocc19",
+    storageBucket: "mydocc19.appspot.com",
+    messagingSenderId: "590596458684",
+    appId: "1:590596458684:web:909d9c80996ac4e10928b9",
+    measurementId: "G-1CEGJJ3S15"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
@@ -61,9 +68,11 @@
                     conf[i] = JSON.stringify(data[i].confirmed);
                 }
             }
+	   
+	   
             for (var i = 0; i < data.length; i++) {
-                var docVar = firestore.ref(currentdate + "/" + cont[i]);
-                docVar.push({
+                var docVar = firestore.doc(currentdate + "/" + cont[i]);
+                docVar.set({
                     Province_State: provin[i],
                     Confirmed_Cases: conf[i],
                     Deaths: dea[i],
@@ -72,8 +81,11 @@
 
                 })
             }
+			console(provin);
+			
         })
     };
+
   
   
   
