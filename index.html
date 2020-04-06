@@ -14,6 +14,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="line.js"></script>
+   <script src="geo.js"></script>
+   <script src="pie.js"></script>
 	<style>
 	body{
 	background-color: #000000;
@@ -61,71 +63,7 @@
 	  
 	</style>
 
-	  <script>
-	//geo chart
-	  google.charts.load('current', {
-        'packages':['geochart'],
-        // Note: you will need to get a mapsApiKey for your project.
-        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
-      });
-	  
-	  var dataarray = [];
-	  var temp = ["countries","number"];
-	  dataarray.push(temp);
-	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
-	  for (i = 0; i < data.length ; i++) {
-               dataarray.push([data[i].countryregion,data[i].confirmed]);
-            }
-			});
-			console.log(dataarray);
-      google.charts.setOnLoadCallback(drawRegionsMap);
-
-      function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable(dataarray);
-
-        var options = {};
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-        chart.draw(data, options);
-      }
-	  
-	  
-	  
-	  //pie chart
-	  
-	  
-	  google.charts.load('current', {'packages':['corechart']});
-	  var dataarray = [];
-	  var temp = ["countries","number"];
-	  dataarray.push(temp);
-	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
-	  for (i = 0; i < data.length ; i++) {
-               dataarray.push([data[i].countryregion,data[i].confirmed]);
-            }
-			});
-			console.log(dataarray);
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable(dataarray);
-
-        var options = {
-          title: 'Confirmed Cases'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
-      } 
-	  
-	  
 	
-	
-           
-</script>
    
 <script>
     window.addEventListener('load', () => {
