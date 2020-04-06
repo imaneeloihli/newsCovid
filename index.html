@@ -60,40 +60,7 @@
     }
 	  
 	</style>
-	<script>
-	
-	  //line chart
-	   google.charts.load('current', {'packages':['line']});
-      google.charts.setOnLoadCallback(drawChart);
-	  var dataarray1 = [];
-	  var temp1 = ["countries","numberOfCases","numberOfDeaths","numberOfRecovred"];
-	  dataarray1.push(temp1);
-	  
-	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
-	  for (i = 0; i < data.length ; i++) {
-               dataarray1.push([data[i].countryregion,data[i].confirmed,data[i].deaths,data[i].recovered]);
-            }
-			});
-			console.log(dataarray1);
-	  
-	    google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(dataarray1);
-
-        var options = {
-          title: 'Countries Statistics',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('myChart2'));
-
-        chart.draw(data, options);
-      }
-           
-</script>
 	  <script>
 	//geo chart
 	  google.charts.load('current', {
@@ -159,27 +126,7 @@
 	  
 	    
 </script>
-<script>
- //pour remplir le tableau
-	
-	window.onload=function(){
-	$.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
-    
-    for(var i =0; i < data.length; i++) { 
-        
-        html += "<tr>";
-        html += "<td>"+data[i].countryregion+"</td>";
-        html += "<td>"+data[i].confirmed+"</td>";
-        html += "<td>"+data[i].deaths+"</td>";
-        html += "<td>"+data[i].recovered+"</td>";
-        html += "</tr>";
-
-        $('.mytable').append(html);
-        html = "";
-    }
-	});
-	}
-</script>   
+   
 <script>
     window.addEventListener('load', () => {
         let j = 2
@@ -367,6 +314,7 @@
         return new Date(year, month - 1, day)
     }
 </script>
+
 </head>
 <body>
 <table id="haut">
@@ -602,10 +550,64 @@
 
                 })
             }
-			console.log(provin);
+			
 			
         })
     };
+	
+ //pour remplir le tableau
+	
+	window.onload=function(){
+	$.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+    
+    for(var i =0; i < data.length; i++) { 
+        
+        html += "<tr>";
+        html += "<td>"+data[i].countryregion+"</td>";
+        html += "<td>"+data[i].confirmed+"</td>";
+        html += "<td>"+data[i].deaths+"</td>";
+        html += "<td>"+data[i].recovered+"</td>";
+        html += "</tr>";
+
+        $('.mytable').append(html);
+        html = "";
+    }
+	});
+	}
+
+</script>
+	<script>
+	  //line chart
+	   google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+	  var dataarray1 = [];
+	  var temp1 = ["countries","numberOfCases","numberOfDeaths","numberOfRecovred"];
+	  dataarray1.push(temp1);
+	  
+	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+	  for (i = 0; i < data.length ; i++) {
+               dataarray1.push([data[i].countryregion,data[i].confirmed,data[i].deaths,data[i].recovered]);
+            }
+			});
+			console.log(dataarray1);
+	  
+	    google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(dataarray1);
+
+        var options = {
+          title: 'Countries Statistics',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('myChart2'));
+
+        chart.draw(data, options);
+      }
+           
 </script>
 
 </body>
