@@ -10,6 +10,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-analytics.js"></script>
+<script src="store.js"></script>
 	<style>
 	body{
 	background-color: #000000;
@@ -50,6 +57,9 @@
     }
 	.centrer {
      text-align: center;
+    }
+	.right {
+     text-align: right;
     }
 	  
 	</style>
@@ -368,7 +378,7 @@
 <td width="500px">
 
 </td>
-<td width="400px"><img src="logo.png" alt="logo corona"/></td>
+<td width="400px"><img src="logo.png" alt="logo corona" class="right"/></td>
 </tr>
 </table>
 </br>
@@ -511,7 +521,7 @@
     m = n.getMonth() + 1;
     d = n.getDate();
     document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-
 </script>
+
 </body>
 </html>
