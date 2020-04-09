@@ -4,18 +4,16 @@
   <title>Covid News</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  
-
-
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="line.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <script src="geo.js"></script>
    <script src="pie.js"></script>
+   <script src="line.js"></script>
+   
+  
 	<style>
 	body{
 	background-color: #000000;
@@ -29,11 +27,7 @@
 	font-size :20px;
 	font-weight: bold;
 	}
-	.date {
-	 background-color:#323232;
-	 width:200px;
-     height:40px;
-	 }
+	
 	.recovered {
 	  
 	  background-color:#3CB371;
@@ -63,201 +57,11 @@
 	  
 	</style>
 
-	
-   
-<script>
-    window.addEventListener('load', () => {
-        let j = 2
-        var form = document.getElementById('formulaire')
-        form.addEventListener('submit', (event) => {
-            event.preventDefault()
-            $('#cards').empty()
-            fetchData(event.target)
-        })
-		
-       
-        fillDataList()
-    })
-	 const fillDataList = () => {
-        let url = 'https://pomber.github.io/covid19/timeseries.json'
-        let countryList = []
-        fetch(url)
-            .then(res => res.json())
-            .then(res => {
-                countryList = Object.keys(res)
-                console.log(Object.keys(res), " Are all Countries being Tracked")
-                localStorage.setItem('cList', JSON.stringify(countryList))
-                countryList.forEach((cntry) => {
-                    $('datalist').append(`<option value="${cntry}">`)
-                })
-            })
-    }
-	
-	
-	 const fetchData = async (target) => {
-
-        let i = 1
-        let longest = []
-        let mainDB = {}
-        let graphDB = []
-        let dateLabels = {}
-        let correctDate
-        let type = $('#type').val()
-        let typeData
-        let url = 'https://pomber.github.io/covid19/timeseries.json'
-        await fetch(url)
-            .then(res => res.json())
-            .then(res => {
-
-                Array.from(target).forEach((elem) => {
-                    if (elem.name == 'Country' && elem.value != '') {
-                        country = elem.value
-                        //      console.log("current country is ", country)
-                        mainDB[country] = []
-                        dateLabels[country] = []
-
-                        res[country].forEach(({ date, confirmed, recovered, deaths }) => {
-
-                            switch (type) {
-                                case 'Confirmed': typeData = confirmed; break;
-                                case 'Recovered': typeData = recovered; break;
-                                case 'Deceased': typeData = deaths; break;
-                            }
-
-                            correctDate = formatDate(date)
-                            mainDB[country].push({ x: correctDate, y: Number(typeData) })
-                            dateLabels[country].push(correctDate)
-                            latestConf = confirmed
-                            latestReco = recovered
-                            latestDead = deaths
-                            latestDate = correctDate
-                        })
-
-                        $('#date').text('Data as of ' + latestDate)
-                        createCard(country, latestConf, latestReco, latestDead)
-
-                        if (dateLabels[country].length > longest.length) longest = [...dateLabels[country]]
-
-                        console.log(mainDB[country], " is ", country)
-
-
-                        switch (i) {
-                            case 1: clr = 'rgb(255, 0, 0)'; break;
-                            case 2: clr = 'rgb(0, 255, 0)'; break;
-                            case 3: clr = 'rgb(0, 0, 255)'; break;
-                            case 4: clr = 'rgb(232, 122, 199)'; break;
-                            case 5: clr = 'rgb(60, 201, 215)'; break;
-                        }
-                        i++
-
-                        let obj = {
-                            label: country,
-                            backgroundColor: clr,
-                            borderColor: clr,
-                            data: mainDB[country],
-                            fill: false,
-                            pointHoverBackgroundColor: 'rgb(0,0,0)',
-                            pointHoverRadius: 6,
-                        }
-
-                        graphDB.push(obj)
-                    }
-                })
-            })
-            .catch((err) => {
-                alert('Country name might be incorrect.')
-            })
-        drawGraph(graphDB, longest, type)
-
-    }
-	const drawGraph = (graphDB, longest, type) => {
-
-
-        let config = {
-            type: 'line',
-            data: {
-                labels: longest,
-                datasets: graphDB,
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    labels: {
-                        fontColor: 'white',
-                        fontSize: 20,
-                    }
-                },
-                title: {
-                    display: false,
-                    text: 'Covid 19 Cases'
-                },
-                tooltips: {
-                    mode: 'x',
-                    backgroundColor: 'rgb(0,128,0)',
-                    //   	intersect: false,
-                    titleFontSize: 18,
-                    bodyFontSize: 17,
-                },
-                hover: {
-                    mode: 'index',
-                    intersect: true
-                },
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        distribution: 'series',
-                        ticks: {
-                            fontSize: 17,
-                            fontColor: 'grey'
-                        }
-                    }],
-                    yAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: true,
-                            labelString: type.toUpperCase() + '   CASES',
-                            fontColor: 'white'
-                        },
-                        ticks: {
-                            fontSize: 20,
-                            fontColor: 'grey'
-                        }
-                    }]
-                },
-            }
-        }
-        $('canvas').remove()
-        $('#chart-container').append('<canvas id="canvas"></canvas>')
-        var ctx = document.getElementById('canvas').getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        window.myLine = new Chart(ctx, config);
-    }
-	 const createCard = (country, latestConf, latestReco, latestDead) => {
-        $('#cards').append(`<div class="card">
-        <div class="card-body">
-		<h5 class="card-title">${country}</h5>
-		<p class="mt-3 text-info"> Confirmed : ${latestConf}</p>
-		<p class="text-success"> Recovered : ${latestReco}</p>
-		<p class="text-danger"> Deaths : ${latestDead}</p>`)
-    }
-
-	const formatDate = (dateInWrongFormat) => {
-        var len = dateInWrongFormat.length
-        var lastPos = dateInWrongFormat.lastIndexOf('-')
-        let day = dateInWrongFormat.slice(lastPos + 1)
-        var firstPos = dateInWrongFormat.indexOf('-')
-        let month = dateInWrongFormat.slice(firstPos + 1, lastPos)
-        let year = dateInWrongFormat.substr(0, 4)
-        //     console.log("year ",year," month ",month, " day ",day)
-        return new Date(year, month - 1, day)
-    }
-</script>
-
 </head>
 <body>
 <table id="haut">
 <tr>
-<td width="400px"><div class="date">1/11/2019 To <text id="date"> </div></td>
+<td width="400px"><div class="date">Last apdate the <text id="date"> </div></td>
 <td width="500px">
 
 </td>
@@ -295,7 +99,7 @@
 <table id="all">
  <td>
  <p class="title"> Nunber Of Cases And Deaths In Each Country</p>
-  <div id="piechart" style="width: 500px; height: 600px;"></div>
+ <div id="piechart" style="width: 500px; height: 600px;"></div>
   
  </td>
   
@@ -306,6 +110,8 @@
  
  </td>
  </tr>
+ </br>
+ 
  <tr>
  <td colspan="2">
  <p class="title"> Nunber Of Cases And Deaths In Each Country</p>
@@ -316,7 +122,7 @@
  <tr>
 <td>
  <p class="title"> Nunber Of Cases And Deaths And Recovred In Each Country</p>
- <div style="height:700px;weight:805px;overflow:auto;">
+ <div style="height:600px;weight:850px;overflow:auto;">
 <table class="tab" border="2"  >
 <thead>
       <tr>
@@ -334,7 +140,7 @@
   </div>
  </td>
  <td>
- 
+ <div class="center">
 <h2>Choose a country then click </h2>
                     <form id="formulaire">
                         <div id="inputDiv">
@@ -362,6 +168,7 @@
                     <div id="cards">
 
                     </div>
+</div>
  
  </td>
  <tr>
@@ -394,6 +201,7 @@
 
     
 	//currents date
+	
 	n =  new Date();
     y = n.getFullYear();
     m = n.getMonth() + 1;
@@ -508,7 +316,7 @@
 	});
 	}
 	</script>
-	
+   
 
 </body>
 </html>

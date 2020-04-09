@@ -26,3 +26,6 @@
 
         chart.draw(data, options);
       }
+	  
+	  
+	 
