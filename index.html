@@ -9,11 +9,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="linegraph.js"></script>
    <script src="geo.js"></script>
    <script src="pie.js"></script>
-   <script src="line.js"></script>
    
-  
 	<style>
 	body{
 	background-color: #000000;
@@ -51,6 +51,9 @@
 	.centrer {
      text-align: center;
     }
+	.global {
+	background-color: #F0FFFF;
+	}
 	.right {
      text-align: right;
     }
@@ -114,8 +117,9 @@
  
  <tr>
  <td colspan="2">
- <p class="title"> Nunber Of Cases And Deaths In Each Country</p>
-<div class="centrer" id="myChart2"  style="width=900px;height:500px"></div>
+ <p class="title"> Global Evolution Of Covid_19 Over Time</p>
+  <canvas class="global" id="genChart"  style="width=900px;height:500px"></canvas>
+
  
  </td>
  <tr>
@@ -139,39 +143,7 @@
   </table>
   </div>
  </td>
- <td>
- <div class="center">
-<h2>Choose a country then click </h2>
-                    <form id="formulaire">
-                        <div id="inputDiv">
 
-                            <input type="text" name="Country"
-                                placeholder="Choose Country Name" list="country">
-                            <datalist id="country">
-
-                            </datalist>
-
-                        </div>
-                        <div class="buttons">
-
-                            <button type="submit" class="btn1">Show</button>
-                           
-                            <select class="btn2 " id="type">
-                                <option value="Confirmed">Confirmed</option>
-                                <option value="Recovered">Recovered</option>
-                                <option value="Deceased">Deceased</option>
-                            </select>
-
-                        </div>
-                    </form>
-					 
-                    <div id="cards">
-
-                    </div>
-</div>
- 
- </td>
- <tr>
  </table>
  
 
