@@ -1,6 +1,6 @@
 //line chart
   google.charts.load('current', {'packages':['line']});
-  google.charts.setOnLoadCallback(drawChart);
+  
   var dataarray1 = [];
   var temp1 = ["countries","numberOfCases","numberOfDeaths","numberOfRecovred"];
   dataarray1.push(temp1);
