@@ -8,7 +8,7 @@
 	  dataarray2.push(temp2);
 	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
 	  for (i = 0; i < data.length ; i++) {
-               dataarray2.push([data[i].countryregion,data[i].confirmed]);
+               dataarray2.push([data[i].countryregion,parseInt(data[i].confirmed)]);
             }
 			});
 			console.log(dataarray2);

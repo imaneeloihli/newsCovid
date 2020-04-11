@@ -11,8 +11,39 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="linegraph.js"></script>
-   <script src="geo.js"></script>
-   <script src="pie.js"></script>
+  <script src="pie.js"></script>
+   <script>
+   
+	
+	  //geo chart
+	  google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+	  
+	  var dataarray = [];
+	  var temp = ["countries","number"];
+	  dataarray.push(temp);
+	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
+	  for (i = 0; i < data.length ; i++) {
+               dataarray.push([data[i].countryregion,data[i].confirmed]);
+            }
+			});
+			console.log(dataarray);
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable(dataarray);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+	  </script>
    
 	<style>
 	body{
@@ -57,20 +88,23 @@
 	.right {
      text-align: right;
     }
+	#rouge {
+	color :#DC143C;
+	font-size :20px;
+	font-weight: bold;
+	}
+	
 	  
 	</style>
 
 </head>
 <body>
-<table id="haut">
-<tr>
-<td width="400px"><div class="date">Last apdate the <text id="date"> </div></td>
-<td width="500px">
 
-</td>
-<td width="400px"><img src="logo.png" alt="logo corona" class="right"/></td>
-</tr>
-</table>
+
+
+<img src="logo.png" alt="logo corona" style="top: 0px; right: 0px;"/>
+<div class="date" style="top: 0px; left: 0px;">Last apdate the <text id="date"> </div>
+<marquee behavior="alternate" id="rouge"> <b> Stay at home</b> </marquee>
 </br>
 </br>
 </br>
@@ -266,11 +300,11 @@
 			
 			
         })
-    };
+    
 	
  //pour remplir le tableau
 	
-	window.onload=function(){
+	
 	$.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
     
     for(var i =0; i < data.length; i++) { 
