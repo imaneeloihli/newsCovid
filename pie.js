@@ -1,11 +1,11 @@
   
 	  //pie chart
 	  
-	  
+	
+	
 	  google.charts.load('current', {'packages':['corechart']});
-	  var dataarray2 = [];
-	  var temp2 = ["countries","number"];
-	  dataarray2.push(temp2);
+	  var dataarray2 = new Array(['countries','number']);
+	  
 	  $.getJSON("https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest", function (data) {
 	  for (i = 0; i < data.length ; i++) {
                dataarray2.push([data[i].countryregion,Math.abs(data[i].confirmed)]);
