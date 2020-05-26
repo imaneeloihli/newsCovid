@@ -4,24 +4,22 @@
             var arr = new Array();
             arr= obj["Afghanistan"];
             var date = new Array();
+            var cases =new Array();
+            var donnee =new Array();
+            var deaths=new Array();
+            var recovered = new Array();
             for( var i=0;i<arr.length;i++){
                 date.push(arr[i].date);
+                cases.push(arr[i].confirmed);
+                deaths.push(arr[i].deaths);
+                recovered.push(arr[i].recovered);
             }
-            fetch('https://api.coronastatistics.live/timeline/global').then(function(response){
-                return response.json();
-            }).then(function(obj){
-                var cases =new Array();
-                var donnee =new Array();
-                var deaths=new Array();
-                var recovered = new Array();
-                for(var i=0 ; i<date.length;i++){
-                    donnee.push(obj[date[i]]);
-                }
-                for(var i=0 ; i<date.length;i++){
-                    cases.push(donnee[i].cases);
-                    recovered.push(donnee[i].recovered);
-                    deaths.push(donnee[i].deaths);
-                }
+
+            console.log("date",date);
+            console.log("confirmed",cases);
+            console.log("deaths",deaths);
+            console.log("recovered",recovered);
+            
                 Chart.defaults.global.legend.labels.usePointStyle = true;
                 donnee=[];
                 donnee.push(cases);
@@ -71,7 +69,7 @@
                 chartgen.update();
                 
             })
-        })
+        
 	
 
      
